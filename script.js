@@ -1,9 +1,10 @@
 const quoteText = document.querySelector(".quote"),
 authorName = document.querySelector(".author-name"),
-quoteBtn = document.querySelector("button"),
+quoteBtn = document.querySelector(".qBtn"),
 sourceBtn = document.querySelector(".source"),
 copyBtn = document.querySelector(".copy"),
-twitterBtn = document.querySelector(".twitter");
+twitterBtn = document.querySelector(".twitter"),
+dropdown = document.querySelector(".collapsible");;
 let oldIndex = 0;
 
 // Function to fetch the quote from API
@@ -49,3 +50,16 @@ twitterBtn.addEventListener("click", ()=> {
 });
 
 quoteBtn.addEventListener("click", randomQuote);
+
+dropdown.addEventListener("click", () => {
+    let content = dropdown.nextElementSibling;
+    if(content.style.display === "block") {
+        dropdown.style.transform = "rotate(0deg)";
+        dropdown.style.transition = "transform 0.1s linear";
+        content.style.display = "none";
+    } else {
+        dropdown.style.transform = "rotate(90deg)";
+        dropdown.style.transition = "transform 0.1s linear";
+        content.style.display = "block";
+    }
+});
