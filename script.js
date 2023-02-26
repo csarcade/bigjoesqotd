@@ -22,7 +22,6 @@ function randomQuote() {
             oldIndex = randIndex;
         };
         selObject = obj[randIndex];
-        console.log(selObject);
         
         quoteText.innerText = selObject["quote"];
         authorName.innerText = selObject["author"];
