@@ -3,34 +3,50 @@ authorName = document.querySelector(".author-name"),
 quoteBtn = document.querySelector("button"),
 sourceBtn = document.querySelector(".source"),
 copyBtn = document.querySelector(".copy"),
-twitterBtn = document.querySelector(".twitter"),
-quoteList = "data/quotes.json";
+twitterBtn = document.querySelector(".twitter");
+let oldIndex = 0;
 
-//function to fetch the quote from API
+// Function to fetch the quote from API
 function randomQuote() {
     quoteBtn.classList.add("loading");
     quoteBtn.innerText = "Loading...";
-    //Fetching the random quote from API and then parsing the JSON into usable data
-    fetch(quoteList).then(res => res.json()).then(result =>{
-        quoteText.innerText = result.quote;
-        authorName.innerText = result.author;
+    
+    // Fetching the random quote from API and then parsing the JSON into usable data
+    fetch("https://csarcade.github.io/bigjoesqotd/data/quotes.json").then(res => res.json()).then(result =>{
+        obj = result.quotes;
+        randIndex = Math.floor(Math.random() * obj.length);
+        // Simple way to prevent selecting the same index back to back
+        if(randIndex == oldIndex) {
+            randomQuote;
+        } else {
+            oldIndex = randIndex;
+        };
+        selObject = obj[randIndex];
+        console.log(selObject);
+        
+        quoteText.innerText = selObject["quote"];
+        authorName.innerText = selObject["author"];
         quoteBtn.innerText = "New Quote";
         quoteBtn.classList.remove("loading");
     });
 }
 
+window.onload = randomQuote;
+
 sourceBtn.addEventListener("click", ()=> {
-    window.open(result.link, "_blank"); //opens a new tab to the TikTok source video
+    // Opens a new tab to the TikTok source video
+    open(selObject["link"], "_blank");
 });
 
 copyBtn.addEventListener("click", ()=> {
-    //Copies the quote to the users clipboard on copyBtn click
+    // Copies the quote to the users clipboard on copyBtn click
     navigator.clipboard.writeText(quoteText.innerText);
 });
 
 twitterBtn.addEventListener("click", ()=> {
-    let tweetUrl = 'https://twitter.com/intent/tweet?url=' + quoteText.innerText;
-    window.open(tweetUrl, "_blank"); //opens a new tab to Twitter passing the quote in the url
+    let tweetUrl = 'https://twitter.com/intent/tweet?url=' + quoteText.innerText + " -" + authorName.innerText;
+    // Opens a new tab to Twitter passing the quote in the url
+    open(tweetUrl, "_blank");
 });
 
 quoteBtn.addEventListener("click", randomQuote);
