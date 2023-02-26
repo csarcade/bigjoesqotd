@@ -3,15 +3,16 @@ authorName = document.querySelector(".author-name"),
 quoteBtn = document.querySelector("button"),
 sourceBtn = document.querySelector(".source"),
 copyBtn = document.querySelector(".copy"),
-twitterBtn = document.querySelector(".twitter");
+twitterBtn = document.querySelector(".twitter"),
+quoteList = "data/quotes.json";
 
 //function to fetch the quote from API
 function randomQuote() {
     quoteBtn.classList.add("loading");
     quoteBtn.innerText = "Loading...";
     //Fetching the random quote from API and then parsing the JSON into usable data
-    fetch("https://api.quotable.io/random").then(res => res.json()).then(result =>{
-        quoteText.innerText = result.content;
+    fetch(quoteList).then(res => res.json()).then(result =>{
+        quoteText.innerText = result.quote;
         authorName.innerText = result.author;
         quoteBtn.innerText = "New Quote";
         quoteBtn.classList.remove("loading");
@@ -19,7 +20,7 @@ function randomQuote() {
 }
 
 sourceBtn.addEventListener("click", ()=> {
-    window.open(result.sourceUrl, "_blank"); //opens a new tab to the TikTok source video
+    window.open(result.link, "_blank"); //opens a new tab to the TikTok source video
 });
 
 copyBtn.addEventListener("click", ()=> {
